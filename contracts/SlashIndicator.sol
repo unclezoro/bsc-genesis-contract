@@ -112,7 +112,7 @@ contract SlashIndicator is ISlashIndicator,System,IParamSubscriber, IApplication
     }else if(Memory.compareStrings(key,"felonyThreshold")){
       require(value.length == 32, "length of felonyThreshold mismatch");
       uint256 newFelonyThreshold = BytesToTypes.bytesToUint256(32, value);
-      require(newFelonyThreshold > 20 && newFelonyThreshold <= 1000, "the felonyThreshold out of range");
+      require(newFelonyThreshold > misdemeanorThreshold && newFelonyThreshold <= 1000, "the felonyThreshold out of range");
       felonyThreshold = newFelonyThreshold;
     }else{
       require(false, "unknown param");
