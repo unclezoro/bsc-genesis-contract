@@ -13,8 +13,8 @@ import "./lib/RLPEncode.sol";
 contract SlashIndicator is ISlashIndicator,System,IParamSubscriber, IApplication{
   using RLPEncode for *;
 
-  uint256 public constant MISDEMEANOR_THRESHOLD = 50;
-  uint256 public constant FELONY_THRESHOLD = 150;
+  uint256 public constant MISDEMEANOR_THRESHOLD = 10;
+  uint256 public constant FELONY_THRESHOLD = 50;
   uint256 public constant BSC_RELAYER_REWARD = 1e16;
 
 

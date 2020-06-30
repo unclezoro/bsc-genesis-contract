@@ -63,7 +63,7 @@ contract CrossChain is System, ICrossChain, IParamSubscriber{
   }
 
   modifier onlyRegisteredContractChannel(uint8 channleId) {
-    require(registeredContractChannelMap[msg.sender][channleId], "the contract and channel have not been registered");
+    require(false, "the contract and channel have not been registered");
     _;
   }
 
