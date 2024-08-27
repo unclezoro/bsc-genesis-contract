@@ -113,6 +113,7 @@ contract Staking is IStaking, System, IParamSubscriber, IApplication {
     event crashResponse(uint8 indexed eventType);
 
     receive() external payable {
+        // TODO I guess we should not revert here
         revert("deprecated");
     }
 

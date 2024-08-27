@@ -59,6 +59,7 @@ contract RelayerHub is IRelayerHub, System, IParamSubscriber {
     event relayerAddedProvisionally(address _relayer);
 
     function init() external onlyNotInit {
+        // TODO should not revert, it will be called in consensus engine.
         revert("deprecated");
     }
 

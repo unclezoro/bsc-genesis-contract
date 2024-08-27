@@ -92,6 +92,7 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
     bool public isSystemRewardIncluded;
 
     // BEP-294 BC-fusion
+    // TODO mark as deprecated
     Validator[] private _tmpMigratedValidatorSet;
     bytes[] private _tmpMigratedVoteAddrs;
 
@@ -120,6 +121,7 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
     }
 
     /*----------------- cross chain package -----------------*/
+    // TODO this is not used any longer
     struct IbcValidatorSetPackage {
         uint8 packageType;
         Validator[] validatorSet;
@@ -173,6 +175,8 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
     event validatorExitMaintenance(address indexed validator);
     event finalityRewardDeposit(address indexed validator, uint256 amount);
     event deprecatedFinalityRewardDeposit(address indexed validator, uint256 amount);
+
+    // TODO no used any longer
     event tmpValidatorSetUpdated(uint256 validatorsNum);
 
     /*----------------- init -----------------*/
@@ -228,34 +232,7 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
             });
         }
 
-        // if staking channel is not closed, store the migrated validator set and return
-        if (
-            ICrossChain(CROSS_CHAIN_CONTRACT_ADDR).registeredContractChannelMap(
-                VALIDATOR_CONTRACT_ADDR, STAKING_CHANNELID
-            )
-        ) {
-            uint256 newLength = _validatorSet.length;
-            uint256 oldLength = _tmpMigratedValidatorSet.length;
-            if (oldLength > newLength) {
-                for (uint256 i = newLength; i < oldLength; ++i) {
-                    _tmpMigratedValidatorSet.pop();
-                    _tmpMigratedVoteAddrs.pop();
-                }
-            }
-
-            for (uint256 i; i < newLength; ++i) {
-                if (i >= oldLength) {
-                    _tmpMigratedValidatorSet.push(_validatorSet[i]);
-                    _tmpMigratedVoteAddrs.push(_voteAddrs[i]);
-                } else {
-                    _tmpMigratedValidatorSet[i] = _validatorSet[i];
-                    _tmpMigratedVoteAddrs[i] = _voteAddrs[i];
-                }
-            }
-
-            emit tmpValidatorSetUpdated(newLength);
-            return;
-        }
+        // TODO 删除这部分，因为这个channel一定不再注册了
 
         // step 0: force all maintaining validators to exit `Temporary Maintenance`
         // - 1. validators exit maintenance
@@ -596,6 +573,7 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
         }
     }
 
+    // TODO no longer used
     function removeTmpMigratedValidator(address validator) external onlyStakeHub {
         for (uint256 i; i < _tmpMigratedValidatorSet.length; ++i) {
             if (_tmpMigratedValidatorSet[i].consensusAddress == validator) {
@@ -1118,11 +1096,8 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
         isFelony = false;
         if (slashCount >= felonyThreshold) {
             _felony(validator, index);
-            if (IStakeHub(STAKE_HUB_ADDR).consensusToOperator(validator) != address(0)) {
-                ISlashIndicator(SLASH_CONTRACT_ADDR).downtimeSlash(validator, slashCount, shouldRevert);
-            } else {
-                ISlashIndicator(SLASH_CONTRACT_ADDR).sendFelonyPackage(validator);
-            }
+            // TODO sendFelonyPackage is impossible
+            ISlashIndicator(SLASH_CONTRACT_ADDR).downtimeSlash(validator, slashCount, shouldRevert);
             isFelony = true;
         } else if (slashCount >= misdemeanorThreshold) {
             _misdemeanor(validator);
@@ -1131,6 +1106,7 @@ contract BSCValidatorSet is IBSCValidatorSet, System, IParamSubscriber, IApplica
         emit validatorExitMaintenance(validator);
     }
 
+    // TODO no longer used
     function _mergeValidatorSet(
         Validator[] memory validatorSet1,
         bytes[] memory voteAddrSet1,

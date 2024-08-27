@@ -19,6 +19,7 @@ contract TokenManager is System, IApplication, IParamSubscriber {
     using RLPDecode for RLPDecode.RLPItem;
     using RLPDecode for RLPDecode.Iterator;
 
+    // TODO remove uselsss struct and event
     // BC to BSC
     struct BindSynPackage {
         uint8 packageType;

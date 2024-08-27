@@ -31,6 +31,7 @@ contract TendermintLightClient is ILightClient, System, IParamSubscriber {
     event paramChange(string key, bytes value);
 
     function init() external onlyNotInit {
+        // TODO should not revert
         revert("deprecated");
     }
 

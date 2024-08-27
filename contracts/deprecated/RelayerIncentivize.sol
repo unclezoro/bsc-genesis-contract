@@ -64,6 +64,7 @@ contract RelayerIncentivize is IRelayerIncentivize, System, IParamSubscriber {
     }
 
     function claimRelayerReward(address relayerAddr) external {
+        // TODO should not revert.
         revert("deprecated");
     }
 

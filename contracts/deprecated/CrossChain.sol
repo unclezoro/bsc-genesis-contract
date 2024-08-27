@@ -153,6 +153,7 @@ contract CrossChain is System, ICrossChain, IParamSubscriber {
     }
 
     function init() external onlyNotInit {
+        // TODO this should not revert, but `alreadyInit = true;` then return
         revert("deprecated");
     }
 

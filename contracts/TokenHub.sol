@@ -239,6 +239,8 @@ contract TokenHub is ITokenHub, System, IParamSubscriber, IApplication, ISystemR
     }
 
     // BEP-171: Security Enhancement for Cross-Chain Module
+    // TODO, let us add an access controller, like protecter which is a safe wallet, only protecter can invoke this function
+    // and the protecter can pause the contract.
     function withdrawUnlockedToken(address tokenAddress, address recipient) external noReentrant {
         LockInfo storage lockInfo = lockInfoMap[tokenAddress][recipient];
         require(lockInfo.amount > 0, "no locked amount");
@@ -413,6 +415,7 @@ contract TokenHub is ITokenHub, System, IParamSubscriber, IApplication, ISystemR
         return string(bep2Symbol);
     }
 
+    // TODO need discuss with roshan
     function withdrawStakingBNB(uint256 amount) external override returns (bool) {
         revert("deprecated");
     }
